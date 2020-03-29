@@ -3,13 +3,18 @@ version: '2'
 services:
   portainer:
     image: portainer/portainer
-    command: -H unix:///var/run/docker.sock
+    container_name: portainer
+    command: 
+      -H unix:///var/run/docker.sock
+      --ssl
+      --sslcert /portainer.crt
+      --sslkey /portainer.key
     restart: always
     ports:
-      - 9000:9000
+      - 9443:9000
       - 8000:8000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
-      # Anpassen bei Bedarf 
       - /data/portainer:/data
+      - ./portainer.key:/portainer.key
+      - ./portainer.crt:/portainer.crt
